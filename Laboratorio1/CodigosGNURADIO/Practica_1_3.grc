@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [8, 20.0]
     rotation: 0
     state: enabled
 
@@ -43,18 +43,18 @@ blocks:
     orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '0'
-    step: '100'
-    stop: '30000'
-    value: '9000'
+    step: '1000'
+    stop: '30000000'
+    value: '59000'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 20.0]
+    coordinate: [384, 20.0]
     rotation: 0
     state: true
-- name: frec_a_0
+- name: frec_b
   id: variable_qtgui_range
   parameters:
     comment: ''
@@ -64,18 +64,18 @@ blocks:
     orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '0'
-    step: '100'
-    stop: '30000'
-    value: '8500'
+    step: '1000'
+    stop: '30000000'
+    value: '738000'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 20.0]
+    coordinate: [520, 20.0]
     rotation: 0
     state: true
-- name: frec_a_1
+- name: frec_c
   id: variable_qtgui_range
   parameters:
     comment: ''
@@ -85,29 +85,38 @@ blocks:
     orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '0'
-    step: '100'
-    stop: '30000'
-    value: '8000'
+    step: '1000'
+    stop: '3000000'
+    value: '29500'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [472, 20.0]
+    coordinate: [656, 20.0]
     rotation: 0
     state: true
 - name: samp_rate
-  id: variable
+  id: variable_qtgui_range
   parameters:
     comment: ''
-    value: '32000'
+    gui_hint: ''
+    label: Frecuencia de muestreo
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '1000'
+    step: '1000'
+    stop: '80000000'
+    value: '10000'
+    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 12]
+    coordinate: [192, 20.0]
     rotation: 0
-    state: enabled
+    state: true
 - name: analog_sig_source_x_0
   id: analog_sig_source_x
   parameters:
@@ -137,7 +146,7 @@ blocks:
     alias: ''
     amp: '1'
     comment: ''
-    freq: frec_a_0
+    freq: frec_c
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
@@ -159,7 +168,7 @@ blocks:
     alias: ''
     amp: '1'
     comment: ''
-    freq: frec_a_1
+    freq: frec_b
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'

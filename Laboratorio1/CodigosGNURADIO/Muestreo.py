@@ -5,9 +5,10 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: Punto 3
+# Title: Practica 1_1
 # Author: Alfonso Sanchez y Sergio Angarita
 # Copyright: 2022
+# Description: Primera practica de laboratorio teleco 1
 # GNU Radio version: 3.9.5.0
 
 from distutils.version import StrictVersion
@@ -42,12 +43,12 @@ from PyQt5 import QtCore
 
 from gnuradio import qtgui
 
-class punto3(gr.top_block, Qt.QWidget):
+class Muestreo(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Punto 3", catch_exceptions=True)
+        gr.top_block.__init__(self, "Practica 1_1", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Punto 3")
+        self.setWindowTitle("Practica 1_1")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -65,7 +66,7 @@ class punto3(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "punto3")
+        self.settings = Qt.QSettings("GNU Radio", "Muestreo")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -78,26 +79,18 @@ class punto3(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 10000
-        self.frec_c = frec_c = 29500
-        self.frec_b = frec_b = 738000
-        self.frec_a = frec_a = 59000
+        self.samp_rate = samp_rate = 32000
+        self.freq = freq = 2000
 
         ##################################################
         # Blocks
         ##################################################
-        self._samp_rate_range = Range(1000, 80000000, 1000, 10000, 200)
-        self._samp_rate_win = RangeWidget(self._samp_rate_range, self.set_samp_rate, "Frecuencia de muestreo", "counter_slider", float, QtCore.Qt.Horizontal)
+        self._samp_rate_range = Range(2000, 400000, 1000, 32000, 200)
+        self._samp_rate_win = RangeWidget(self._samp_rate_range, self.set_samp_rate, "'samp_rate'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._samp_rate_win)
-        self._frec_c_range = Range(0, 3000000, 1000, 29500, 200)
-        self._frec_c_win = RangeWidget(self._frec_c_range, self.set_frec_c, "'frec_c'", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._frec_c_win)
-        self._frec_b_range = Range(0, 30000000, 1000, 738000, 200)
-        self._frec_b_win = RangeWidget(self._frec_b_range, self.set_frec_b, "'frec_b'", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._frec_b_win)
-        self._frec_a_range = Range(0, 30000000, 1000, 59000, 200)
-        self._frec_a_win = RangeWidget(self._frec_a_range, self.set_frec_a, "'frec_a'", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._frec_a_win)
+        self._freq_range = Range(1000, 40000, 1000, 2000, 200)
+        self._freq_win = RangeWidget(self._freq_range, self.set_freq, "Frequency", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._freq_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
             128, #size
             samp_rate, #samp_rate
@@ -190,25 +183,19 @@ class punto3(gr.top_block, Qt.QWidget):
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_float*1, samp_rate,True)
-        self.blocks_multiply_xx_0 = blocks.multiply_vff(1)
-        self.analog_sig_source_x_0_1 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, frec_b, 1, 0, 0)
-        self.analog_sig_source_x_0_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, frec_c, 1, 0, 0)
-        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, frec_a, 1, 0, 0)
+        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_SIN_WAVE, freq, 1, 0, 0)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 0))
-        self.connect((self.analog_sig_source_x_0_0, 0), (self.blocks_multiply_xx_0, 2))
-        self.connect((self.analog_sig_source_x_0_1, 0), (self.blocks_multiply_xx_0, 1))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_throttle_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0, 0))
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "punto3")
+        self.settings = Qt.QSettings("GNU Radio", "Muestreo")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -221,37 +208,21 @@ class punto3(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
-        self.analog_sig_source_x_0_0.set_sampling_freq(self.samp_rate)
-        self.analog_sig_source_x_0_1.set_sampling_freq(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
-    def get_frec_c(self):
-        return self.frec_c
+    def get_freq(self):
+        return self.freq
 
-    def set_frec_c(self, frec_c):
-        self.frec_c = frec_c
-        self.analog_sig_source_x_0_0.set_frequency(self.frec_c)
-
-    def get_frec_b(self):
-        return self.frec_b
-
-    def set_frec_b(self, frec_b):
-        self.frec_b = frec_b
-        self.analog_sig_source_x_0_1.set_frequency(self.frec_b)
-
-    def get_frec_a(self):
-        return self.frec_a
-
-    def set_frec_a(self, frec_a):
-        self.frec_a = frec_a
-        self.analog_sig_source_x_0.set_frequency(self.frec_a)
+    def set_freq(self, freq):
+        self.freq = freq
+        self.analog_sig_source_x_0.set_frequency(self.freq)
 
 
 
 
-def main(top_block_cls=punto3, options=None):
+def main(top_block_cls=Muestreo, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')

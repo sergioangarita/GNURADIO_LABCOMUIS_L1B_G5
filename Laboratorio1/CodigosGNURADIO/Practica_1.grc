@@ -51,21 +51,30 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 20.0]
+    coordinate: [328, 12.0]
     rotation: 0
     state: true
 - name: samp_rate
-  id: variable
+  id: variable_qtgui_range
   parameters:
     comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '2000'
+    step: '1000'
+    stop: '400000'
     value: '32000'
+    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 12]
+    coordinate: [192, 12.0]
     rotation: 0
-    state: enabled
+    state: true
 - name: analog_sig_source_x_0
   id: analog_sig_source_x
   parameters:
